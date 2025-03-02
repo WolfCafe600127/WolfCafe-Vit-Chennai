@@ -517,9 +517,17 @@ app.post("/api/update-status", async (req, res) => {
           o.status="Cancelled";
 
           await cancelled.create(o.toObject()); // Convert Mongoose doc to plain object
+          const mailOptions = {
+            from: process.env.GMAIL,
+            to: o.email,
+            subject: "Order Cancellation & Refund Update",
+            text:`We regret to inform you that your order (Order ID: ${o.razorpay_order_id}) has been canceled by our kitchen due to the unavailability of some items or delivery constraints at this time. We sincerely apologize for any inconvenience caused and appreciate your understanding.\n \nRegarding your refund, we have already initiated the process, and the amount will be credited to your bank account shortly.\n\nWe truly value your support and hope to have the opportunity to serve you again in the future. Please accept our apologies, and thank you for your patience.\n\nBest regards.\nWolf Cafe`
+        };
+  
+        await transporter.sendMail(mailOptions);
 
           // Update the original order
-          await liveorders.findByIdAndUpdate(orderId, updateData);
+          // await liveorders.findByIdAndUpdate(orderId, updateData);
           await liveorders.findByIdAndDelete(orderId);
           
           return res.json({ 
