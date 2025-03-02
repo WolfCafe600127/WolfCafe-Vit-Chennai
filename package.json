@@ -4,6 +4,7 @@
   "description": "Wolf Cafe order management and order system exclusively for VIT Chennai Students",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Harsh Agrawal",
