@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wolf Cafe</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/home.css" />
+    <style>
+      img {
+        width: 50%;        /* Adjusts based on parent width */
+        height: 200px;     /* Fixed height */
+        object-fit: cover; /* Ensures the image is cropped properly */
+        border-radius: 10px;
+      }
+
+
+      @media (max-width: 768px) {
+       img {
+        width: 100%; /* Full width on smaller screens */
+        height: auto; /* Maintain aspect ratio */
+       }
+      }
+
+    </style>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll("nav ul li a").forEach((link) => {
+          link.addEventListener("click", function (event) {
+            event.preventDefault();
+            const targetId = this.getAttribute("href").substring(1);
+            document.getElementById(targetId).scrollIntoView({ behavior: "smooth" });
+          });
+        });
+      });
+    </script>
+  </head>
+  
+  <body>
+    <!-- Menu -->
+    <div class="menu">
+      <nav>
+        <input type="checkbox" id="check" />
+        <label for="check" class="checkbtn">
+          <ion-icon name="grid-outline"></ion-icon>
+        </label>
+
+        <label class="logo">Wolf Cafe</label>
+
+        <ul>
+          <li><a href="#hero-section" >Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#testimonial">Reviews</a></li>
+        </ul>
+      </nav>
+    </div>
+    <!-- End Menu -->
+
+    <!-- Hero Section -->
+    <div class="section flex" id="hero-section">
+      <div class="text">
+
+        <h1 class="primary">
+          More Than Just Food,  <br />
+          A Taste of<span> Comfort!</span>
+        </h1>
+
+        <p class="tertiary">
+          Delicious meals, quick campus delivery, and a cafe experience you’ll love—right at <strong>VIT Chennai.</strong>
+        </p>
+        <!-- <h5>We currently do not offer refunds for orders once preparation has started. This feature will be available in future updates. Please place your order only if you're sure, and enjoy our best menu selections!</h5> -->
+
+        <a href="/order" class="btn">Order Online</a>
+        <a href="/track-order" class="btn">Track Order</a>
+      </div>
+      <div class="visual">
+        <img src="https://raw.githubusercontent.com/programmercloud/foodlover/main/img/home-banner.png" alt="" />
+      </div>
+    </div>
+    <!-- End Hero Section -->
+
+    <!-- How It Works -->
+    <div class="section" id="how-it-works">
+      <h2 class="secondary">How It Works</h2>
+
+      <div class="container flex">
+        <div class="box">
+          <h3>Easy Order</h3>
+          <ion-icon name="timer-outline"></ion-icon>
+          <p>
+            Quick, hassle-free ordering with fast delivery—right inside VIT Chennai.
+          </p>
+        </div>
+
+        <div class="box active">
+          <h3>Best Quality</h3>
+          <ion-icon name="trophy-outline"></ion-icon>
+          <p>
+            Every meal is crafted with fresh ingredients and served with love.
+          </p>
+        </div>
+
+        <div class="box">
+          <h3>Fast Delivery</h3>
+          <ion-icon name="checkmark-done-circle-outline"></ion-icon>
+          <p>
+            Craving something delicious? We bring it to you in minutes!
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- End How It Works -->
+
+    <!-- About -->
+    <div class="section" id="about">
+      <div class="container flex">
+        <div class="visual">
+          <img src="https://raw.githubusercontent.com/programmercloud/foodlover/main/img/about.png" alt="" />
+        </div>
+        <div class="text">
+          <div class="secondary">About Our Restaurant</div>
+          <h2 class="primary">35+</h2>
+
+          <h3 class="tertiary">Our Delicious Food</h3>
+
+          <p>
+            Whether you're looking for a quick bite between classes or a fulfilling meal to enjoy with friends, we’ve got something for everyone. Our team ensures that every order is prepared with care and delivered swiftly within the VIT Chennai campus, so you can enjoy a hassle-free dining experience. From comforting classics to exciting new flavors, we strive to make every meal a delightful experience.
+          </p>
+
+          <a href="/order" class="btn">Order Online</a>
+        </div>
+      </div>
+    </div>
+    <!-- End About -->
+    
+    <!-- Restaurant Menu -->
+    <div class="section" id="menu">
+
+      <div class="container">
+        <ul class="category">
+          <li class="active" >Top Food Items</li>
+          <!-- <li>Biryani</li>
+          <li>Chicken</li>
+          <li>Pizza</li>
+          <li>Burger</li>
+          <li>Pasta</li> -->
+        </ul>
+
+        <div class="container">
+          <div class="restaurant-menu">
+            <div class="menu-item">
+              <img src="images/paneer-maggie.jpg"   alt="Image not found" />
+
+              <div class="title">Paneer Maggie</div>
+
+              <!-- <div class="location">Lahore, Pakistan</div> -->
+
+              <div class="order flex">
+                <div class="price">₹85</div>
+              
+              </div>
+              <br>
+            </div>
+
+            <div class="menu-item">
+              <img src="images/chicken-wings.jpeg" alt="Image not found" />
+
+              <div class="title">Korean Chicken Wings</div>
+
+              <!-- <div class="location">Lahore, Pakistan</div> -->
+
+              <div class="order flex">
+                <div class="price">₹220</div>
+               
+              </div>
+              <br>
+            </div>
+
+            <div class="menu-item">
+              <img src="images/paneer-wrap.jpeg" alt="Image not found" />
+
+              <div class="title">Paneer Wrap</div>
+
+
+              <div class="order flex">
+                <div class="price">₹150</div>
+                
+              </div>
+              <br>
+            </div>
+
+            <div class="menu-item">
+              <img src="images/chicken-nuggets.jpeg" alt="Image not found" />
+
+              <div class="title">Chicken Nuggets</div>
+
+              <!-- <div class="location">Lahore, Pakistan</div> -->
+
+              <div class="order flex">
+                <div class="price">₹95</div>
+          
+              </div>
+              <br>
+            </div>
+
+            <div class="menu-item">
+              <img src="images/fried-momos.jpeg" alt="Image not found" />
+
+              <div class="title">Fried Momos</div>
+
+              <!-- <div class="location">Lahore, Pakistan</div> -->
+
+              <div class="order flex">
+                <div class="price">₹80</div>
+
+              </div>
+              <br>
+            </div>
+
+            <div class="menu-item">
+              <img src="images/butterfly-drumstick.jpeg" alt="Image not found" />
+
+              <div class="title">Butterfly Drumstick</div>
+
+              <!-- <div class="location">Lahore, Pakistan</div> -->
+
+              <div class="order flex">
+                <div class="price">₹90</div>
+                
+              </div>
+              <br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Restaurant Menu -->
+
+    <!-- Testimonial -->
+    <div class="section" id="testimonial">
+      <div class="container flex">
+        <div class="text">
+          <h2 class="secondary">What people say about FoodLover</h2>
+          <p>
+            An amazing platform for food lovers! Whether it's a quick snack or a full-course meal, FoodLover never disappoints with its delicious options and seamless ordering process.
+          </p>
+
+          <div class="user flex">
+            <img src="" alt="img" />
+            <div class="name">
+              <div class="title">Harsh Agrawal</div>
+              <div class="location">Chennai, India</div>
+            </div>
+          </div>
+        </div>
+        <div class="visual">
+          <img src="https://raw.githubusercontent.com/programmercloud/foodlover/main/img/testimonial.png" alt="" />
+        </div>
+      </div>
+    </div>
+    <!-- End Testimonial -->
+
+    <!-- FAQ -->
+    <div class="section" id="faq">
+      <h2 class="secondary">Frequently Asked Questions</h2>
+
+      <div class="faq">
+        <details>
+          <summary>I got wrong food what shoud I do?</summary>
+          <div class="content">
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Asperiores amet sunt at?
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>I got wrong food what shoud I do?</summary>
+          <div class="content">
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Asperiores amet sunt at?
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>I got wrong food what shoud I do?</summary>
+          <div class="content">
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Asperiores amet sunt at?
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>I got wrong food what shoud I do?</summary>
+          <div class="content">
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Asperiores amet sunt at?
+            </p>
+          </div>
+        </details>
+      </div>
+    </div>
+    <!-- End FAQ -->
+
+    
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="container flex">
+        <div class="footer-about">
+          <h2>About</h2>
+          <p>
+            A fast and easy way to order food online. Enjoy hassle-free ordering, real-time updates, and secure payments.
+          </p>
+        </div>
+
+        
+
+        
+
+        
+      </div>
+
+      <div class="copyright">
+        <p>Copyright &copy; 2022. All Rights Reserved.</p>
+      </div>
+    </div>
+    <script>
+      alert("We currently do not offer refunds for orders once preparation has started. This feature will be available in future updates. Please place your order only if you're sure, and enjoy our best menu selections!");
+    </script>
+    
+           <!--   BTN   -->
+    
+    <!-- End Footer -->
+
+    <!-- Ion Icons Js -->
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"
+    ></script>
+  </body>
+</html>

@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu | Cafe</title>
+    <link rel="stylesheet" href="css/order.css">
+</head>
+<body>
+
+    <% if (kitchenClosed) { %>
+        <div class="message-box">
+            <span class="icon">⚠️</span> 
+            <span>Right now, the kitchen is closed. Please order after some time!</span>
+        </div>
+    <% } else if (hasLiveOrder) { %>
+        <div class="message-box">
+            <span class="icon">⚠️</span> 
+            <span>You already have an active order!</span>
+            <div class="buttons">
+                <button class="track-btn" onclick="window.location.href='/track-order'">Track Order</button>
+            </div>
+        </div>
+    <% } else { %>
+        <div class="order-now-container">
+            <button id="orderButton">Order Now</button>
+        </div>
+        <div class="menu-container">
+            <h1>Our Menu</h1>
+            <ul class="category">
+                <li class="active" data-category="all">All</li>
+                <li data-category="fried Chicken">Fried Chicken</li>
+                <li data-category="burger">Burger</li>
+                <li data-category="snacks">Snacks</li>
+                <li data-category="wraps">Wraps</li>
+                <li data-category="drinks">Drinks</li>
+                <li data-category="dessert">Dessert</li>
+                <li data-category="maggies">Maggies</li>
+                <li data-category="ramen">Ramen</li>
+            </ul>
+
+            <div class="menu-items">
+                <div class="menu-item" data-category="drinks">
+                    <img src="images/coldcoffee.jpeg" alt="Drink">
+                    <div class="menu-details">
+                        <h3>Cold Coffee</h3>
+                        <div class="price">₹75</div>
+                        <div class="cart-controls">
+                            <button class="minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item" data-category="drinks">
+                    <img src="images/ice tea.jpeg" alt="Drink">
+                    <div class="menu-details">
+                        <h3>Ice Tea</h3>
+                        <div class="price">₹75</div>
+                        <div class="cart-controls">
+                            <button class="minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="menu-item" data-category="drinks">
+                    <img src="images/mojito green apple.jpeg" alt="Drink">
+                    <div class="menu-details">
+                        <h3>Mojito- Green Apple</h3>
+                        <div class="price">₹85</div>
+                        <div class="cart-controls">
+                            <button class="minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item" data-category="drinks">
+                    <img src="images/mojito mint.jpeg" alt="Drink">
+                    <div class="menu-details">
+                        <h3>Mojito- Mint</h3>
+                        <div class="price">₹85</div>
+                        <div class="cart-controls">
+                            <button class="minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item" data-category="drinks">
+                    <img src="images/mojito blue croco.jpeg" alt="Drink">
+                    <div class="menu-details">
+                        <h3>Mojito- Blue Croco</h3>
+                        <div class="price">₹85</div>
+                        <div class="cart-controls">
+                            <button class="minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item" data-category="snacks">
+                    <img src="images/frenchfries.jpeg" alt="Drink">
+                    <div class="menu-details">
+                        <h3>French Fries</h3>
+                        <div class="price">₹80</div>
+                        <div class="cart-controls">
+                            <button class="minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item" data-category="snacks">
+                    <img src="images/chicken-nuggets.jpeg" alt="Drink">
+                    <div class="menu-details">
+                        <h3>Chicken Nuggets 6pcs</h3>
+                        <div class="price">₹95</div>
+                        <div class="cart-controls">
+                            <button class="minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item" data-category="snacks">
+                    <img src="images/veg-cheese-nug.jpeg" alt="Drink">
+                    <div class="menu-details">
+                        <h3>Veg Cheese Nuggets 6pcs</h3>
+                        <div class="price">₹85</div>
+                        <div class="cart-controls">
+                            <button class="minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item" data-category="snacks">
+                    <img src="images/fried-momos.jpeg" alt="Drink">
+                    <div class="menu-details">
+                        <h3>Fried Momos 5pcs</h3>
+                        <div class="price">₹80</div>
+                        <div class="cart-controls">
+                            <button class="minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item" data-category="snacks">
+                    <img src="images/pan fried momos.jpeg" alt="Drink">
+                    <div class="menu-details">
+                        <h3>Pan Fried Momos 5pcs</h3>
+                        <div class="price">₹80</div>
+                        <div class="cart-controls">
+                            <button class="minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="snacks">
+                    <img src="images/chicken-bread-omelet.jpeg" alt="Drink">
+                    <div class="menu-details">
+                        <h3>Chicken Bread Omelet</h3>
+                        <div class="price">₹85</div>
+                        <div class="cart-controls">
+                            <button class="minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="maggies">
+                    <img src="images/paneer-maggie.jpg" alt="Drink">
+                    <div class="menu-details">
+                        <h3>Veg Paneer Maggie</h3>
+                        <div class="price">₹85</div>
+                        <div class="cart-controls">
+                            <button class="minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item" data-category="maggies">
+                    <img src="images/chicken-maggie.jpg" alt="Drink">
+                    <div class="menu-details">
+                        <h3>Chicken Maggie</h3>
+                        <div class="price">₹85</div>
+                        <div class="cart-controls">
+                            <button class="minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="wraps">
+                    <img src="images/chicken-wrap.jpeg" alt="Drink">
+                    <div class="menu-details">
+                        <h3>Chicken Wrap</h3>
+                        <div class="price">₹150</div>
+                        <div class="cart-controls">
+                            <button class="minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="wraps">
+                    <img src="images/paneer-wrap.jpeg" alt="Drink">
+                    <div class="menu-details">
+                        <h3>Paneer Wrap</h3>
+                        <div class="price">₹150</div>
+                        <div class="cart-controls">
+                            <button class="minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="fried Chicken">
+                    <img src="images/chicken-wings.jpeg" alt="Drink">
+                    <div class="menu-details">
+                        <h3>Korean Chicken Wings 5pcs</h3>
+                        <div class="price">₹220</div>
+                        <div class="cart-controls">
+                            <button class="minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item" data-category="fried Chicken">
+                    <img src="images/chicken-popcorn.jpeg" alt="Drink">
+                    <div class="menu-details">
+                        <h3>Korean Chicken Popcorn </h3>
+                        <div class="price">₹190</div>
+                        <div class="cart-controls">
+                            <button class="minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item" data-category="fried Chicken">
+                    <img src="images/butterfly-drumstick.jpeg" alt="Drink">
+                    <div class="menu-details">
+                        <h3>Butterfly Drumstick 1pc</h3>
+                        <div class="price">₹90</div>
+                        <div class="cart-controls">
+                            <button class="minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item" data-category="fried Chicken">
+                    <img src="images/hotwings.jpeg" alt="Drink">
+                    <div class="menu-details">
+                        <h3>Cripsy Hot Wings 5pcs</h3>
+                        <div class="price">₹180</div>
+                        <div class="cart-controls">
+                            <button class="minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="menu-item" data-category="dessert">
+                    <img src="images/brownie.jpeg" alt="Drink">
+                    <div class="menu-details">
+                        <h3>Brownie</h3>
+                        <div class="price">₹45</div>
+                        <div class="cart-controls">
+                            <button class="minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item" data-category="dessert">
+                    <img src="images/cake-pops.jpeg" alt="Drink">
+                    <div class="menu-details">
+                        <h3>Cake Pops</h3>
+                        <div class="price">₹35</div>
+                        <div class="cart-controls">
+                            <button class="minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item" data-category="dessert">
+                    <img src="images/chocolate-truffle.jpeg" alt="Drink">
+                    <div class="menu-details">
+                        <h3>Chocolate Truffle MiniJar</h3>
+                        <div class="price">₹80</div>
+                        <div class="cart-controls">
+                            <button class="minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item" data-category="dessert">
+                    <img src="images/white-forest.jpeg" alt="Drink">
+                    <div class="menu-details">
+                        <h3>White Forest MiniJar</h3>
+                        <div class="price">₹75</div>
+                        <div class="cart-controls">
+                            <button class="minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="dessert">
+                    <img src="images/black-forest.jpeg" alt="Drink">
+                    <div class="menu-details">
+                        <h3>Black Forest Cupcake</h3>
+                        <div class="price">₹50</div>
+                        <div class="cart-controls">
+                            <button class="minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item" data-category="dessert">
+                    <img src="images/coffee-ganache.jpeg" alt="Drink">
+                    <div class="menu-details">
+                        <h3>Coffee Ganache Cupcake</h3>
+                        <div class="price">₹60</div>
+                        <div class="cart-controls">
+                            <button class="minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="dessert">
+                    <img src="images/chocolate-ganache.jpeg" alt="Drink">
+                    <div class="menu-details">
+                        <h3>Chocolate Ganache Cupcake</h3>
+                        <div class="price">₹60</div>
+                        <div class="cart-controls">
+                            <button class="minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="dessert">
+                    <img src="images/milk-cake.jpeg" alt="Drink">
+                    <div class="menu-details">
+                        <h3>Milk Cake</h3>
+                        <div class="price">₹85</div>
+                        <div class="cart-controls">
+                            <button class="minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item" data-category="dessert">
+                    <img src="images/rosemilk-milk-cake.jpeg" alt="Drink">
+                    <div class="menu-details">
+                        <h3>Rosemilk Milk Cake</h3>
+                        <div class="price">₹85</div>
+                        <div class="cart-controls">
+                            <button class="minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="dessert">
+                    <img src="images/tiramisu.jpeg" alt="Drink">
+                    <div class="menu-details">
+                        <h3>Tiramisu</h3>
+                        <div class="price">₹90</div>
+                        <div class="cart-controls">
+                            <button class="minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item" data-category="dessert">
+                    <img src="images/devils-cake.jpeg" alt="Drink">
+                    <div class="menu-details">
+                        <h3>Devils Food Cake</h3>
+                        <div class="price">₹85</div>
+                        <div class="cart-controls">
+                            <button class="minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="menu-item" data-category="ramen">
+                    <img src="" alt="Paneer Ramen">
+                    <div class="menu-details">
+                        <h3>Paneer Ramen</h3>
+                        <div class="price">₹110</div>
+                        <div class="cart-controls">
+                            <button class="minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="ramen">
+                    <img src="images/chicken-ramen.jpeg" alt="Chicken Ramen">
+                    <div class="menu-details">
+                        <h3>Chicken Ramen</h3>
+                        <div class="price">₹130</div>
+                        <div class="cart-controls">
+                            <button class="minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+                
+                
+
+                <div class="menu-item" data-category="burger">
+                    <img src="https://source.unsplash.com/200x150/?burger" alt="Burger">
+                    <div class="menu-details">
+                        <h3>Cheese Burger</h3>
+                        <div class="price">₹150</div>
+                        <div class="cart-controls">
+                            <button class="minus">-</button>
+                            <span class="quantity">0</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% } %>
+
+    <script src="javascript/order.js"></script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    
+    <div class="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+        <h2 class="text-2xl font-semibold text-gray-800">Your Cart </h2>
+
+        <div class="mt-4">
+            <% if (Object.keys(cart).length === 0) { %>
+                <p class="text-gray-500">Your cart is empty.</p>
+            <% } else { %>
+                <% Object.entries(cart).forEach(([itemName, item]) => { %>
+                    <div class="flex justify-between items-center border-b py-2">
+                        <div>
+                            <h4 class="text-lg font-semibold"><%= itemName %></h4>
+                            <p class="text-gray-600">₹<%= item.price %> x <%= item.quantity %></p>
+                        </div>
+                        <h4 class="text-lg font-semibold">₹<%= item.price * item.quantity %></h4>
+                    </div>
+                <% }) %>
+            <% } %>
+        </div>
+
+        <div class="flex justify-between items-center mt-6 border-t pt-4">
+            <h3 class="text-xl font-semibold">Total: ₹<%= totalPrice %></h3>
+            <% if (Object.keys(cart).length > 0) { %>
+                <button id="payNow" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600">Pay Now</button>
+            <% } %>
+        </div>
+    </div>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    document.getElementById("payNow")?.addEventListener("click", async () => {
+        try {
+            const response = await fetch("/cart/processing", { method: "POST" });
+            const data = await response.json();
+
+            if (!data.success) {
+                alert("Error creating order!");
+                return;
+            }
+
+            const options = {
+                key:"rzp_test_etiWECOQmj2Sxu",
+                amount: data.order.amount,
+                currency: "INR",
+                name: "Your Store",
+                description: "Cart Payment",
+                order_id: data.order.id,
+                handler: async function (response) {
+                    const verifyRes = await fetch("/cart/verify-payment", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(response),
+                    });
+
+                    const verifyData = await verifyRes.json();
+                    if (verifyData.success) {
+                        alert("Payment Successful!");
+                        window.location.href = "/";
+                    } else {
+                        alert("Payment verification failed!");
+                    }
+                },
+                prefill: {
+                    email: "user@example.com",
+                    contact: "9999999999",
+                },
+                theme: { color: "#3399cc" },
+            };
+
+            const rzp = new Razorpay(options);
+            rzp.open();
+        } catch (error) {
+            console.error("Payment error:", error);
+            alert("Something went wrong!");
+        }
+    });
+</script>
+
+</body>
+</html>

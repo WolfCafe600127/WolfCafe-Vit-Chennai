@@ -1,0 +1,179 @@
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8;
+}
+
+/* Menu Container */
+.menu-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* Category List */
+.category {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    list-style: none;
+    padding: 10px;
+    margin: 0;
+    gap: 10px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.category::-webkit-scrollbar {
+    display: none;
+}
+
+.category li {
+    padding: 10px 15px;
+    cursor: pointer;
+    background-color: #ff9800;
+    color: white;
+    border-radius: 5px;
+    transition: 0.3s;
+    font-size: 14px;
+    text-align: center;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.category li:hover, .category .active {
+    background-color: #e65100;
+}
+
+/* Menu Items Grid */
+.menu-items {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 items per row */
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* Individual Menu Item */
+.menu-item {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.menu-item img {
+    width: 100%; 
+    max-width: 180px; /* Keeps image size fixed */
+    height: 140px; 
+    border-radius: 10px;
+    object-fit: cover;
+    display: block;
+    margin: auto;
+}
+
+.menu-item:hover {
+    transform: scale(1.05);
+}
+
+/* Cart Controls */
+.cart-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.cart-controls button {
+    background: #ff5722;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.cart-controls button:hover {
+    background: #e64a19;
+}
+
+.quantity {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Order Now Button */
+.order-now-container {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: white;
+    text-align: center;
+    padding: 10px 0;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#orderButton {
+    font-size: 18px;
+    padding: 12px 25px;
+    background: #ff5722;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#orderButton:hover {
+    background: #e64a19;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .menu-items {
+        grid-template-columns: repeat(4, 1fr); /* 4 items per row */
+    }
+}
+
+@media (max-width: 992px) {
+    .menu-items {
+        grid-template-columns: repeat(3, 1fr); /* 3 items per row */
+    }
+}
+
+@media (max-width: 768px) {
+    .menu-items {
+        grid-template-columns: repeat(2, 1fr); /* 2 items per row */
+    }
+
+    .menu-item img {
+        max-width: 160px; /* Maintain uniform image size */
+        height: 130px;
+    }
+}
+
+@media (max-width: 480px) {
+    .menu-items {
+        grid-template-columns: repeat(1, 1fr); /* 1 item per row */
+    }
+
+    .menu-item {
+        width: 90%;
+        margin: auto;
+    }
+
+    .menu-item img {
+        max-width: 150px;
+        height: 120px;
+    }
+}

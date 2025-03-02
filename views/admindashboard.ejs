@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="css/admindashboard.css">
+</head>
+<body>
+
+    <div class="admin-container">
+        <h2>Admin Dashboard</h2>
+
+        <!-- Toggle Orders ON/OFF -->
+        <button id="toggleOrdersBtn" onclick="toggleOrders()">Orders: <span id="orderStatusText">OFF</span></button>
+
+        <!-- Live Orders Table -->
+        <div id="orders-list">
+            <h3>Live Orders</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Items</th>
+                        <th>Total Price</th>
+                        <th>Status</th>
+                        <th>OTP</th>
+                        <th>Update Status</th>
+                    </tr>
+                </thead>
+                <tbody id="ordersTableBody">
+                    <!-- Orders will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="javascript/admindashboard.js"></script>
+</body>
+</html>

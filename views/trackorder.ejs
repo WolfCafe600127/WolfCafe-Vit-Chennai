@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Your Order</title>
+    <link rel="stylesheet" href="css/trackorder.css">
+</head>
+<body>
+
+    <div class="track-container">
+        <h2>Track Your Order</h2>
+
+        <% if (hasOrder) { %>
+            <div class="order-box">
+                <p><strong>Razorpay Order ID:</strong> <span><%= order.razorpay_order_id %></span></p>
+                <p><strong>Email:</strong> <span><%= order.email %></span></p>
+                <p><strong>Total Price:</strong> ₹<span><%= order.totalPrice %></span></p>
+                <p><strong>Status:</strong> <span class="status <%= order.status.toLowerCase() %>"><%= order.status %></span></p>
+                <p><strong>Ordered At:</strong> <span><%= new Date(order.createdAt).toLocaleString() %></span></p>
+
+                <h3>Items Ordered:</h3>
+<ul>
+    <% if (order && order.items) { %>
+        <% Object.entries(order.items).forEach(([itemName, details]) => { %>
+            <li>
+                <strong><%= itemName %></strong> - 
+                <%= details.quantity %> pcs @ ₹<%= details.price %> each
+            </li>
+        <% }) %>
+
+        <label>Enter OTP to Confirm Delivery</label>
+        <input type="text" id="otpInput" placeholder="Enter OTP">
+        <button onclick="validateOTP()">Confirm Delivery</button>
+    <% } else { %>
+        <p>No items found.</p>
+    <% } %>
+</ul>
+
+            </div>
+        <% } else { %>
+            <div class="no-order-box">
+                <p>No active orders found!</p>
+                <a href="/order" class="order-btn">Order Now</a>
+            </div>
+        <% } %>
+    </div>
+
+    <script>
+
+async function validateOTP() {
+    const otp = document.getElementById("otpInput").value;
+    const response = await fetch("/api/validate-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ otp })
+    });
+    
+    const result = await response.json();
+    if (result.success) {
+        window.location.href = "/success"; // Redirect to success page
+    } else {
+        alert("Invalid OTP. Try Again!");
+    }
+}
+        document.addEventListener("DOMContentLoaded", function () {
+    function fetchOrderStatus() {
+        fetch("/api/order-status")
+            .then(response => response.json())
+            .then(data => {
+                if (data.hasOrder) {
+                    updateOrderDetails(data.order);
+                } else {
+                    showNoOrderMessage();
+                }
+            })
+            .catch(error => console.error("Error fetching order status:", error));
+    }
+
+    function updateOrderDetails(order) {
+        document.querySelector(".order-box").innerHTML = `
+            <p><strong>Razorpay Order ID:</strong> <span>${order.razorpay_order_id}</span></p>
+            <p><strong>Email:</strong> <span>${order.email}</span></p>
+            <p><strong>Total Price:</strong> ₹<span>${order.totalPrice}</span></p>
+            <p><strong>Status:</strong> <span class="status ${order.status.toLowerCase()}">${order.status}</span></p>
+            <p><strong>Ordered At:</strong> <span>${new Date(order.createdAt).toLocaleString()}</span></p>
+            
+            <h3>Items Ordered:</h3>
+            <ul>
+                ${Object.entries(order.items)
+                    .map(([itemName, details]) => 
+                        `<li><strong>${itemName}</strong> - ${details.quantity} pcs @ ₹${details.price} each</li>`)
+                    .join("")}
+            </ul>
+        `;
+    }
+
+    function showNoOrderMessage() {
+        document.querySelector(".track-container").innerHTML = `
+            <div class="no-order-box">
+                <p>No active orders found!</p>
+                <a href="/order" class="order-btn">Order Now</a>
+            </div>
+        `;
+        clearInterval(orderInterval); // Stop polling if no active order
+    }
+
+    let orderInterval = setInterval(fetchOrderStatus, 20000); // Refresh every 20 sec
+});
+
+    </script>
+</body>
+</html>
