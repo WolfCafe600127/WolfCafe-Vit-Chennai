@@ -1,0 +1,12 @@
+name: Keep Render Service Alive
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'  # Runs every 10 minutes
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Render Service
+        run: curl -s -o /dev/null -w "%{http_code}" https://wolfcafe-vit-chennai.onrender.com
