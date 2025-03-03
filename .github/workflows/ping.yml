@@ -9,4 +9,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Ping Render Service
-        run: curl -s -o /dev/null -w "%{http_code}" https://wolfcafe-vit-chennai.onrender.com
+        run: curl -s -o /dev/null -w "%{http_code}" https://wolfcafe-vchennai.onrender.com
