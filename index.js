@@ -187,7 +187,7 @@ app.post("/signup/create", async function (req, res) {
       });
       const mailOptions = {
         from: process.env.GMAIL,
-        to: req.user.email,
+        to: createdUser.email,
         subject: "Welcome to Wolf Cafe Online Ordering! 🍽️",
         text: `Dear ${createdUser.name},
 
