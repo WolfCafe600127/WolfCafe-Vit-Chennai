@@ -185,6 +185,35 @@ app.post("/signup/create", async function (req, res) {
         email: email,
         password: hash,
       });
+      const mailOptions = {
+        from: process.env.GMAIL,
+        to: req.user.email,
+        subject: "Welcome to Wolf Cafe Online Ordering! 🍽️",
+        text: `Dear ${createdUser.name},
+
+Welcome to Wolf Cafe! We're excited to have you on board. 🎉
+
+Registered Details:
+
+Name: ${createdUser.name}
+Email: ${createdUser.email}
+Phone Number: ${createdUser.phone}
+
+With your account, you can now:
+✅ Browse our menu & place orders online
+✅ Get real-time order updates
+✅ Enjoy seamless & quick payments
+✅ Track your past orders for easy reordering
+
+Start exploring now: https://wolfcafe-vchennai.onrender.com
+
+If you have any questions, feel free to reach out to our support team at wolfcafe600127@gmail.com.
+
+Happy ordering!
+Wolf Cafe x Developer Team ☕🍕`
+    };
+
+    await transporter.sendMail(mailOptions);
       var token = jwt.sign({ email: email }, secret, { expiresIn: "1h" });
       // console.log("signup token"+token);
       res.cookie("token", token, { httpOnly: true, secure: false });
