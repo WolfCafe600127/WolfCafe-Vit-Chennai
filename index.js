@@ -6,6 +6,7 @@ const dotenv = require("dotenv");
 const Razorpay=require('razorpay');
 const crypto=require('crypto');
 const nodemailer = require("nodemailer");
+const axios=require("axios");
 // initializing jswt and cookie parser for session management
 
 const jwt = require("jsonwebtoken");
@@ -42,6 +43,7 @@ const adminModel = require("./models/admin");
 const activeModel = require("./models/active");
 const ordered=require("./models/ordered");
 const otpModel=require("./models/OTP");
+const review=require("./models/review");
 
 const cancelled=require("./models/cancelled");
 
@@ -167,10 +169,6 @@ app.post("/reset-password", async (req, res) => {
       res.status(500).json({ error: "Failed to reset password" });
   }
 });
-
-
-
-
 
 app.post("/signup/create", async function (req, res) {
   let { name, phone, email, password } = req.body;
@@ -375,6 +373,8 @@ app.get("/cart", verifyToken, async (req, res) => {
         .createHmac("sha256", razorpay.key_secret)
         .update(razorpay_order_id + "|" + razorpay_payment_id)
         .digest("hex");
+
+      const user=await userModel.findOne({email:req.user.email});
   
       if (generatedSignature !== razorpay_signature) {
         return res.status(400).json({ success: false, message: "Payment verification failed" });
@@ -384,14 +384,46 @@ app.get("/cart", verifyToken, async (req, res) => {
       if (!userCart) {
         return res.status(400).json({ success: false, message: "No cart found" });
       }
+      console.log(user.phone);
+
+      
+
+
+
       let neworder=await liveorders.create({
-        email: req.user.email,
+        email:req.user.email,
+        phone:user.phone,
         razorpay_order_id,
         razorpay_payment_id,
         otp:"0000",
         items: userCart.items,
         totalPrice: Object.values(userCart.items).reduce((sum, item) => sum + item.quantity * item.price, 0),
       });
+      console.log("mail sending");
+      const mailOptions = {
+        from: process.env.GMAIL,
+        to: req.user.email,
+        subject: "Order Received – Thank You for Ordering from Wolf Cafe!",
+        text: `Dear ${user.name},
+
+Thank you for placing your order with Wolf Cafe! We have received your order and are preparing it with care.
+
+Order Details:
+
+Order ID: ${razorpay_order_id}
+Name: ${user.name}
+Email: ${user.email}
+
+You check another updates using track order feature, once your order is ready for pickup or out for delivery. If you have any questions, feel free to contact us.
+
+Enjoy your meal!
+
+Best regards,
+Wolf Cafe Team
+https://wolfcafe-vchennai.onrender.com`
+    };
+
+    await transporter.sendMail(mailOptions);
       // Clear cart after successful payment
       await ordercart.deleteOne({ email: req.user.email });
   
@@ -480,7 +512,8 @@ app.get("/api/live-orders", async (req, res) => {
           return res.status(500).json({ error: "Database returned invalid data" });
       }
       console.log("✅ Live orders fetched:", orders);
-      res.json(orders);
+      // res.json(orders,{orderCount:orders.length});
+      res.json({ orders, orderCount: orders.length });
   } catch (error) {
       console.error("❌ Error fetching orders:", error);
       res.status(500).json({ error: "Internal Server Error" });
@@ -510,31 +543,62 @@ app.post("/api/update-status", async (req, res) => {
 
       // Special handling for canceled orders
       if (status === "Cancelled") {
-          // Create a new entry in the canceledorders collection
-          
-
-          const o = await liveorders.findById(orderId);
-          o.status="Cancelled";
-
-          await cancelled.create(o.toObject()); // Convert Mongoose doc to plain object
-          const mailOptions = {
-            from: process.env.GMAIL,
-            to: o.email,
-            subject: "Order Cancellation & Refund Update",
-            text:`We regret to inform you that your order (Order ID: ${o.razorpay_order_id}) has been canceled by our kitchen due to the unavailability of some items or delivery constraints at this time. We sincerely apologize for any inconvenience caused and appreciate your understanding.\n \nRegarding your refund, we have already initiated the process, and the amount will be credited to your bank account shortly.\n\nWe truly value your support and hope to have the opportunity to serve you again in the future. Please accept our apologies, and thank you for your patience.\n\nBest regards.\nWolf Cafe`
-        };
-  
-        await transporter.sendMail(mailOptions);
-
-          // Update the original order
-          // await liveorders.findByIdAndUpdate(orderId, updateData);
-          await liveorders.findByIdAndDelete(orderId);
-          
-          return res.json({ 
-              success: true, 
-              message: "Order canceled and moved to canceled orders database!" 
-          });
-      }
+        try {
+            // Find the order in liveorders collection
+            const o = await liveorders.findById(orderId);
+            o.status = "Cancelled";
+    
+            // Initiate refund using Razorpay API
+            const refundResponse = await axios.post(
+                `https://api.razorpay.com/v1/payments/${o.razorpay_payment_id}/refund`,
+                {},
+                {
+                    auth: {
+                        username: process.env.RAZORPAY_KEY_ID,
+                        password: process.env.RAZORPAY_SECRET
+                    }
+                }
+            );
+    
+            // Extract refund ID from response
+            const refundId = refundResponse.data.id;
+    
+            // Move order to cancelled orders collection
+            await cancelled.create(o.toObject()); // Convert Mongoose doc to plain object
+    
+            // Send refund confirmation email
+            const mailOptions = {
+                from: process.env.GMAIL,
+                to: o.email,
+                subject: "Order Cancellation & Refund Update",
+                text: `We regret to inform you that your order (Order ID: ${o.razorpay_order_id}) has been canceled by our kitchen due to the unavailability of some items or delivery constraints at this time. 
+    
+We sincerely apologize for any inconvenience caused and appreciate your understanding.
+    
+Regarding your refund, we have already initiated the process. Your refund ID is ${refundId}, and the amount will be credited to your bank account shortly.Please wait for some days and do contact us for refund related problems.
+    
+We truly value your support and hope to have the opportunity to serve you again in the future. 
+    
+Best regards,  
+Wolf Cafe`
+            };
+    
+            await transporter.sendMail(mailOptions);
+    
+            // Delete the original order from liveorders
+            await liveorders.findByIdAndDelete(orderId);
+    
+            return res.json({
+                success: true,
+                message: "Order canceled, refund processed, and moved to cancelled orders database!",
+                refundId
+            });
+    
+        } catch (error) {
+            console.error("Error processing refund:", error.response ? error.response.data : error);
+            return res.status(500).json({ success: false, message: "Refund failed. Contact us we will manually verify to initiate refund!!" });
+        }
+    }
 
       // For non-canceled orders, just update normally
       await liveorders.findByIdAndUpdate(orderId, updateData);
@@ -613,6 +677,29 @@ app.post("/api/validate-otp", async (req, res) => {
 // Route to render success page
 app.get("/success", (req, res) => {
   res.render("success");
+});
+
+app.get("/reviews",verifyToken,function(req,res){
+   return res.render("reviews");
+});
+
+app.post("/submit-review",verifyToken, async (req, res) => {
+  try {
+      const { stars, suggestion} = req.body;
+      const user=req.user;
+      
+      if (!stars || !suggestion) return res.status(400).json({ error: "Missing fields" });
+
+      await review.create({
+        email:user.email,
+        stars,
+        suggestion
+      });
+
+      res.status(201).json({ message: "Review submitted successfully!" });
+  } catch (error) {
+      res.status(500).json({ error: "Server error" });
+  }
 });
 
 

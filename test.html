@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Page</title>
+    <style>
+        /* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(to right, orange, lightgray);
+    padding: 20px;
+}
+
+.review-container {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.review-container:hover {
+    transform: scale(1.05);
+}
+
+h2 {
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.star-rating {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.star {
+    font-size: 30px;
+    color: lightgray;
+    cursor: pointer;
+    transition: transform 0.2s, color 0.3s;
+}
+
+.star:hover, .star.active {
+    color: gold;
+    transform: scale(1.2);
+}
+
+textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    resize: none;
+    outline: none;
+    transition: border 0.3s;
+}
+
+textarea:focus {
+    border-color: orange;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background: #4facfe;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: #00c6ff;
+}
+
+#message {
+    margin-top: 10px;
+    font-size: 14px;
+    color: green;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.hidden {
+    display: none;
+}
+
+    </style>
+</head>
+<body>
+    <div class="review-container">
+        <h2>Rate Us</h2>
+        <div class="star-rating">
+            <span class="star" data-value="1">&#9733;</span>
+            <span class="star" data-value="2">&#9733;</span>
+            <span class="star" data-value="3">&#9733;</span>
+            <span class="star" data-value="4">&#9733;</span>
+            <span class="star" data-value="5">&#9733;</span>
+        </div>
+        <textarea id="suggestion" placeholder="Write your feedback..."></textarea>
+        <button id="submitReview">Submit</button>
+    </div>
+
+    <!-- <script src="script.js"></script> -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+    let selectedStars = 0;
+
+    document.querySelectorAll(".star").forEach(star => {
+        star.addEventListener("click", function () {
+            selectedStars = this.getAttribute("data-value");
+            document.querySelectorAll(".star").forEach(s => s.classList.remove("active"));
+            this.classList.add("active");
+            for (let i = 0; i < selectedStars; i++) {
+                document.querySelectorAll(".star")[i].classList.add("active");
+            }
+        });
+    });
+
+    document.getElementById("submitReview").addEventListener("click", async () => {
+        const suggestion = document.getElementById("suggestion").value.trim();
+        const message = document.getElementById("message");
+
+        if (selectedStars === 0 || suggestion === "") {
+            message.textContent = "Please provide a rating and feedback!";
+            message.style.color = "red";
+            message.classList.remove("hidden");
+            message.style.opacity = "1";
+            return;
+        }
+
+        const reviewData = { stars: selectedStars, suggestion };
+
+        try {
+            const response = await fetch("/submit-review", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(reviewData)
+            });
+
+            if (response.ok) {
+                message.textContent = "Review submitted successfully!";
+                message.style.color = "green";
+                document.getElementById("suggestion").value = "";
+                document.querySelectorAll(".star").forEach(s => s.classList.remove("active"));
+            } else {
+                message.textContent = "Failed to submit review!";
+                message.style.color = "red";
+            }
+            message.classList.remove("hidden");
+            message.style.opacity = "1";
+
+            setTimeout(() => {
+                message.style.opacity = "0";
+            }, 3000);
+
+        } catch (error) {
+            console.error("Error submitting review:", error);
+        }
+    });
+});
+
+    </script>
+</body>
+</html>

@@ -5,6 +5,108 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="css/admindashboard.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            padding: 10px;
+        }
+
+        .admin-container {
+            max-width: 1200px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        /* Toggle Orders Button */
+        #toggleOrdersBtn {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 10px auto;
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #toggleOrdersBtn:hover {
+            background: #0056b3;
+        }
+
+        /* Responsive Table */
+        #orders-list {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background: #007bff;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+
+        /* Responsive Styles */
+        @media screen and (max-width: 768px) {
+            th, td {
+                font-size: 14px;
+                padding: 8px;
+            }
+
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            #toggleOrdersBtn {
+                width: 90%;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            h2 {
+                font-size: 18px;
+            }
+
+            #toggleOrdersBtn {
+                font-size: 14px;
+                padding: 8px;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -21,6 +123,7 @@
                 <thead>
                     <tr>
                         <th>Email</th>
+                        <th>Phone No.</th>
                         <th>Items</th>
                         <th>Total Price</th>
                         <th>Status</th>

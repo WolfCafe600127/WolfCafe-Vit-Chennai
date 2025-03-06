@@ -150,9 +150,9 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelector("#orderButton").addEventListener("click", () => {
     let totalAmount = calculateTotal();
 
-    if (totalAmount < 250) {
+    if (totalAmount < 249) {
       alert(
-        "Amount is less than ₹250. Please add more items to enjoy our best food menu!"
+        "Amount is less than ₹249. Please add more items to enjoy our best food menu!"
       );
       return; // Stop order processing if the amount is too low
     }

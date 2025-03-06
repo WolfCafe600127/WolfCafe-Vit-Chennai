@@ -6,6 +6,7 @@
     <title>Menu | Cafe</title>
     <link rel="stylesheet" href="css/order.css">
 </head>
+
 <body>
 
     <% if (kitchenClosed) { %>
@@ -16,7 +17,7 @@
     <% } else if (hasLiveOrder) { %>
         <div class="message-box">
             <span class="icon">⚠️</span> 
-            <span>You already have an active order!</span>
+            <span>You already have an active order!</span> <br> <br>
             <div class="buttons">
                 <button class="track-btn" onclick="window.location.href='/track-order'">Track Order</button>
             </div>

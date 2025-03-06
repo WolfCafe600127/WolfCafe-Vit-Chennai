@@ -128,22 +128,29 @@
 // fetchOrderStatus();
 
 
+let lastOrderCount =0;
 async function fetchOrders() {
     try {
         const response = await fetch("/api/live-orders");
-        const orders = await response.json();
+        const data = await response.json();
+        
+        if (data.orderCount > lastOrderCount) {
+            announceNewOrder(data.orderCount - lastOrderCount);
+          }
+      
+        lastOrderCount = data.orderCount; // Update order count
 
-        console.log("📌 Fetched Orders:", orders);
+        // console.log("📌 Fetched Orders:", orders);
 
-        if (!Array.isArray(orders)) {
-            console.error("❌ Error: Received invalid orders data!", orders);
+        if (!Array.isArray(data.orders)) {
+            console.error("❌ Error: Received invalid orders data!", data);
             return;
         }
 
         const ordersTable = document.getElementById("ordersTableBody");
         ordersTable.innerHTML = "";
 
-        orders.forEach(order => {
+        data.orders.forEach(order => {
             console.log("📌 Order Data:", order);
             // console.log("📌 Order Data:", order.items);
             // console.log(order.items);
@@ -151,6 +158,7 @@ async function fetchOrders() {
 
             row.innerHTML = `
                 <td>${order.email || "N/A"}</td>
+                <td>${order.phone || "N/A"}</td>
                 <td>${formatItems(order.items)}</td> 
                 <td>₹${order.totalPrice || 0}</td>
                 <td class="${(order.status || "").toLowerCase()}">${order.status || "Pending"}</td>
@@ -169,6 +177,18 @@ async function fetchOrders() {
     }
 }
 
+function announceNewOrder(newOrders) {
+  const msg = new SpeechSynthesisUtterance();
+  msg.text = `New order received!`
+  msg.lang = "en-US";
+  msg.volume = 1;
+  msg.rate = 1;
+  msg.pitch = 1;
+  window.speechSynthesis.speak(msg);
+}
+
+// Automatically check for new orders every 20 seconds
+setInterval(fetchOrders, 20000);
 // Format items properly
 function formatItems(items) {
     console.log("📌 Raw Items:", items);

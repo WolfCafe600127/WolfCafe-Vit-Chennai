@@ -6,7 +6,8 @@ const mongo=process.env.MONGO;
 mongoose.connect(mongo);
 
 const liveordersSchema = new mongoose.Schema({
-    email: { type: String, required: true },
+    email:{type:String, required:true},
+    phone: {type:String, required: true},
     razorpay_order_id: { type: String, required: true },
     razorpay_payment_id: { type: String, required: true },
     items: { type: Object, required: true },
@@ -15,6 +16,6 @@ const liveordersSchema = new mongoose.Schema({
     status: { type: String, default: "Processing" }, // Status of order
     createdAt: { type: Date, default: Date.now }, // Timestamp
   });
-  
+
 
 module.exports=mongoose.model('liveorders',liveordersSchema);

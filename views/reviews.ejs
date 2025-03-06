@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Page</title>
+    <link rel="stylesheet" href="css/reviews.css">
+    <style>
+        .homebtn{
+            color: Black;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="review-container">
+        <h2>Rate Us</h2>
+        <div class="star-rating">
+            <span class="star" data-value="1">&#9733;</span>
+            <span class="star" data-value="2">&#9733;</span>
+            <span class="star" data-value="3">&#9733;</span>
+            <span class="star" data-value="4">&#9733;</span>
+            <span class="star" data-value="5">&#9733;</span>
+        </div> <br> <br>
+        <textarea id="suggestion" placeholder="Write your feedback..."></textarea> <br> <br>
+        <button id="submitReview">Submit</button> <br> <br>
+        <a class="homebtn" href="/">Home</a>
+        <p id="message" class="hidden"></p> 
+    </div>
+    
+
+    <script src="javascript/reviews.js"></script>
+</body>
+</html>
