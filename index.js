@@ -203,7 +203,6 @@ With your account, you can now:
 ✅ Browse our menu & place orders online
 ✅ Get real-time order updates
 ✅ Enjoy seamless & quick payments
-✅ Track your past orders for easy reordering
 
 Start exploring now: https://wolfcafe-vchennai.onrender.com
 
